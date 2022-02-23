@@ -1,0 +1,12 @@
+@media screen and (max-width: 992px) {
+  .nav-menu{
+    flex-direction: column;
+  }
+}
+
+.nav-container{
+  position: sticky;
+  top: 15%;
+}
+
+

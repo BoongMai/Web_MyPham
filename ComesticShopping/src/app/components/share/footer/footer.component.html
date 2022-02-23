@@ -1,0 +1,184 @@
+<div nz-row nzJustify="center" class="bg-light">
+  <div
+    nz-col
+    nzXXl="16"
+    nzXl="18"
+    nzLg="20"
+    nzMd="22"
+    nzSm="22"
+    nzXs="22"
+    class="pt-3"
+  >
+    <div nz-row nzJustify="center" nzGutter="4">
+      <div nz-col nzSm="22" nzXs="22" nzMd="22" nzLg="10">
+        <ng-template #listHeader_1>
+          <h4 nz-typography class="primary-text-color text-center">
+            HỆ THỐNG CỬA HÀNG
+          </h4>
+        </ng-template>
+
+        <nz-list [nzHeader]="listHeader_1">
+          <nz-list-item *ngFor="let item of storeAddressData">
+            <div class="store-info w-100 d-flex align-items-center">
+              <div nz-row nzJustify="space-between">
+                <div nz-col nzSpan="12">
+                  <em
+                    class="mr-2"
+                    nz-icon
+                    nzType="home"
+                    nzTwotoneColor="#F36CA8"
+                    nzTheme="twotone"
+                  ></em>
+                  <span class="mr-2" nz-typography
+                    ><strong>{{ item.district }}</strong></span
+                  >
+                </div>
+
+                <div nz-col nzSpan="24">
+                  <span nz-typography>{{ item.addrInfo }}</span>
+                </div>
+              </div>
+            </div>
+          </nz-list-item>
+        </nz-list>
+      </div>
+      <div nz-col nzSm="22" nzXs="22" nzMd="22" nzLg="6">
+        <ng-template #listHeader_2>
+          <h4 nz-typography class="primary-text-color text-center">
+            VỀ CHÚNG TÔI
+          </h4>
+        </ng-template>
+
+        <nz-list [nzHeader]="listHeader_2">
+          <nz-list-item>
+            <a href="#"
+              ><span nz-typography><strong>Hệ thống cửa hàng</strong></span></a
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <a href="#"
+              ><span nz-typography><strong>Giới thiệu</strong></span></a
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <a href="#"
+              ><span nz-typography
+                ><strong>Chính sách đổi trả hàng</strong></span
+              ></a
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <a href="#"
+              ><span nz-typography
+                ><strong>Thanh toán & Vận chuyển</strong></span
+              ></a
+            >
+          </nz-list-item>
+          <nz-list-item>
+            <a href="#"
+              ><span nz-typography><strong>Hướng dẫn mua hàng</strong></span></a
+            >
+          </nz-list-item>
+        </nz-list>
+      </div>
+      <div nz-col nzSm="22" nzXs="22" nzMd="22" nzLg="6">
+        <ng-template #listHeader_3>
+          <h4 nz-typography class="primary-text-color text-center">
+            Phản hồi với chúng tôi
+          </h4>
+        </ng-template>
+
+        <nz-list [nzHeader]="listHeader_3">
+          <nz-list-item>
+            <ng-template #emailPrefix>
+              <em nz-icon nzType="mail" nzTheme="outline"></em>
+            </ng-template>
+
+            <nz-input-group [nzPrefix]="emailPrefix">
+              <input placeholder="Email của bạn" nz-input />
+            </nz-input-group>
+          </nz-list-item>
+          <nz-list-item>
+            <nz-form-control class="w-100">
+              <textarea placeholder="Phản hồi của bạn" nz-input></textarea>
+            </nz-form-control>
+          </nz-list-item>
+          <nz-list-item class="d-flex justify-content-center">
+            <button nz-button nzType="primary">Gửi phản hồi</button>
+          </nz-list-item>
+        </nz-list>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzSpan="24" class="bg-dark p-4" >
+    <div nz-row nzAlign="middle" nzJustify="center">
+      <div
+        nz-col
+        [nzXXl]="{ span: 8, order: 1 }"
+        [nzXl]="{ span: 8, order: 1 }"
+        [nzLg]="{ span: 8, order: 1 }"
+        [nzMd]="{ span: 24, order: 2 }"
+        [nzXs]="{ span: 24, order: 2 }"
+        [nzSm]="{ span: 24, order: 2 }"
+        class="d-flex align-items-center justify-content-center"
+      >
+        <span nz-typography class="text-light"
+          >Khoa CNTT Đại Học Nguyễn Tất Thành</span
+        >
+      </div>
+      <div
+        nz-col
+        [nzXXl]="{ span: 8, order: 2 }"
+        [nzXl]="{ span: 8, order: 2 }"
+        [nzLg]="{ span: 8, order: 2 }"
+        [nzMd]="{ span: 24, order: 1 }"
+        [nzXs]="{ span: 24, order: 1 }"
+        [nzSm]="{ span: 24, order: 1 }"
+        class="d-flex flex-column justify-content-center align-items-center"
+      >
+        <span nz-typography class="text-light">
+          copyright © Phạm Thanh Duy - 2021
+        </span>
+
+      </div>
+      <div
+        nz-col
+        [nzXXl]="{ span: 8, order: 3 }"
+        [nzXl]="{ span: 8, order: 3 }"
+        [nzLg]="{ span: 8, order: 3 }"
+        [nzMd]="{ span: 24, order: 3 }"
+        [nzXs]="{ span: 24, order: 3 }"
+        [nzSm]="{ span: 24, order: 3 }"
+        class="d-flex align-items-center justify-content-center h-100"
+      >
+        <a href="http://">
+          <i
+            class="text-light mx-1"
+            style="font-size: 24px"
+            nz-icon
+            nzType="facebook"
+            nzTheme="outline"
+          ></i
+        ></a>
+        <a href="http://">
+          <i
+            class="text-light mx-1"
+            style="font-size: 24px"
+            nz-icon
+            nzType="instagram"
+            nzTheme="outline"
+          ></i
+        ></a>
+        <a href="http://">
+          <i
+            class="text-light mx-1"
+            style="font-size: 24px"
+            nz-icon
+            nzType="github"
+            nzTheme="outline"
+          ></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

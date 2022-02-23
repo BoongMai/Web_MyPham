@@ -1,0 +1,44 @@
+.auth-container{
+  border-radius: 20px;
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+  position: relative;
+  overflow: hidden;
+}
+
+.left-login-container{
+  background-image: url('/assets/images/login_background.png');
+  background-size: cover;
+  background-repeat:no-repeat;
+  background-position: center;
+}
+@keyframes iconRunAnimated {
+  0%{
+    opacity: 20%;
+    transform: translateX(100%);
+  }
+  100%{
+    opacity: 100%;
+
+    transform: translateX(-100%);
+  }
+}
+.image-absolute{
+  width: 200px;
+  height: 200px;
+  background-image: url('/assets/images/cute.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
+  animation-name: iconRunAnimated;
+  animation-duration: 4s;
+  animation-iteration-count: 10;
+  animation-direction: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-delay: .5s
+}
+
+

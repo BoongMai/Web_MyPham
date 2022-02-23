@@ -1,0 +1,6 @@
+Cài đặt nodejs
+cài đặt nodemon bằng câu lệnh "npm i -g nodemone"
+cài đặt angular/cli v11 hoặc mớI nhất
+
+để chạy server backend, mở Terminal hoặc cmd và chạy câu lệnh "npm start" trong thư mục backend
+để chạy ứng dụng frontend, mở Terminal hoặc cmd và chạy câu lệnh "ng s"

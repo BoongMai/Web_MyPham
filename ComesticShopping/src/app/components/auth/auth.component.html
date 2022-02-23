@@ -1,0 +1,413 @@
+<swal
+  (willClose)="swalDidClose()"
+  [swalVisible]="showSweetAlert"
+  [swalOptions]="sweetAlertOptions"
+  title="{{ sweetAlertMessage }}"
+></swal>
+<nz-affix [nzOffsetTop]="0" style="position: absolute; top: 10px; left: 10px">
+  <div
+    class="d-flex align-items-center"
+    [routerLink]="['/']"
+    routerLinkActive="active"
+  >
+    <button
+      nz-button
+      nzType="primary"
+      class="d-flex align-items-center justify-content-center"
+      nzShape="circle"
+    >
+      <i
+        nz-icon
+        nzType="arrow-left"
+        nzTheme="outline"
+        style="font-size: 16px"
+      ></i>
+    </button>
+    <h5 nzCopyable="false" nz-typography class="ml-2 p-0 m-0 pointer">
+      Quay về trang chủ
+    </h5>
+  </div>
+</nz-affix>
+
+<div
+  nz-row
+  nzAlign="middle"
+  nzJustify="center"
+  class="vh-100 base-background"
+>
+  <div
+    nz-col
+    nzXXl="14"
+    nzXl="16"
+    nzLg="18"
+    nzMd="20"
+    nzXs="22"
+    class="bg-white auth-container"
+    [style]="{
+      height: isMobile
+        ? loginFormHeightSetting.mobile
+        : loginFormHeightSetting.default
+    }"
+  >
+    <div class="image-absolute"></div>
+    <div nz-row nzJustify="center" nzAlign="middle" class="h-100">
+      <div
+        nz-col
+        nzLg="12"
+        nzMd="12"
+        nzXl="12"
+        nzXs="0"
+        class="left-login-container h-100"
+      ></div>
+      <div
+        nz-col
+        nzXl="12"
+        nzLg="12"
+        nzMd="12"
+        nzXs="20"
+        class="h-100 right-login-container"
+      >
+        <div class="w-100">
+          <nz-tabset
+            [nzCentered]="true"
+            nzSize="large"
+            [nzAnimated]="true"
+            nzSize="large"
+            nzLinkRouter
+          >
+            <nz-tab>
+              <a
+                *nzTabLink
+                nz-tab-link
+                [routerLink]="['.']"
+                [queryParams]="{ tab: 'login' }"
+                queryParamsHandling="merge"
+                >Đăng nhập</a
+              >
+
+              <!-- start login form -->
+              <form
+                nz-form
+                class="login-form"
+                [formGroup]="loginForm"
+                (ngSubmit)="submitLoginForm()"
+              >
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item>
+                      <nz-form-control
+                        [nzErrorTip]="
+                          loginForm.get('username')?.hasError('required')
+                            ? 'Bạn chưa nhập tài khoản'
+                            : loginForm.get('username')?.hasError('maxlength')
+                            ? 'Tên tài khoản quá dài'
+                            : ''
+                        "
+                      >
+                        <nz-input-group nzPrefixIcon="user">
+                          <input
+                            type="text"
+                            formControlName="username"
+                            nz-input
+                            placeholder="Tài khoản"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item>
+                      <nz-form-control
+                        [nzErrorTip]="
+                          loginForm.get('password')?.hasError('required')
+                            ? 'Bạn chưa nhập mật khẩu !'
+                            : loginForm.get('password')?.hasError('maxlength')
+                            ? 'Vượt quá kí tự cho phép !'
+                            : ''
+                        "
+                      >
+                        <nz-input-group nzPrefixIcon="lock">
+                          <input
+                            formControlName="password"
+                            type="password"
+                            nz-input
+                            placeholder="Mật khẩu"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <div nz-row nzJustify="center" class="login-form-margin">
+                  <div nz-col nzLg="7" nzXs="11">
+                    <label nz-checkbox formControlName="remember">
+                      <span>Nhớ mật khẩu</span>
+                    </label>
+                  </div>
+                  <div nz-col nzLg="7" nzXs="11" class="text-right">
+                    <a class="login-form-forgot" nz-typography>Quên mật khẩu</a>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="5">
+                    <button
+                      nzBlock="true"
+                      nz-button
+                      class="login-form-button login-form-margin mb-1"
+                      [nzType]="'primary'"
+                      [nzLoading]="loginLoading"
+                    >
+                      Đăng nhập
+                    </button>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div class="text-right mr-1" nz-col nzXl="7" nzXs="11">
+                    Bạn chưa có tài khoản ?
+                  </div>
+                  <div nz-col nzXl="7" nzXs="11">
+                    <a
+                      nz-typography
+                      [routerLink]="['.']"
+                      [queryParams]="{ tab: 'register' }"
+                      routerLinkActive="active"
+                    >
+                      Đăng ký ngay!
+                    </a>
+                  </div>
+                </div>
+              </form>
+              <!-- end login form -->
+            </nz-tab>
+            <nz-tab>
+              <!-- START-----------------REGISTER---------------------FORM -->
+              <a
+                *nzTabLink
+                nz-tab-link
+                [routerLink]="['.']"
+                [queryParams]="{ tab: 'register' }"
+                queryParamsHandling="merge"
+                >Đăng ký</a
+              >
+              <form
+                nz-form
+                class="register-form"
+                [formGroup]="registerForm"
+                (ngSubmit)="submitRegisterForm(registerForm.value)"
+              >
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item>
+                      <nz-form-control
+                        [nzErrorTip]="
+                          registerForm.get('username')?.hasError('required')
+                            ? 'Bạn chưa nhập tài khoản !'
+                            : registerForm
+                                .get('username')
+                                ?.hasError('maxlength')
+                            ? 'Vượt quá kí tự cho phép !'
+                            : registerForm
+                                .get('username')
+                                ?.hasError('minlength')
+                            ? 'Tên tài khoản quá ngắn'
+                            : ''
+                        "
+                      >
+                        <nz-input-group nzPrefixIcon="user">
+                          <input
+                            type="text"
+                            formControlName="username"
+                            nz-input
+                            placeholder="Tài khoản"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item formGroupName="pw">
+                      <nz-form-control
+                        nzValidateStatus="{{
+                          (registerForm
+                            .get('pw')
+                            ?.get('password')
+                            ?.hasError('required') ||
+                            registerForm
+                              .get('pw')
+                              ?.get('password')
+                              ?.hasError('maxlenght') ||
+                            registerForm
+                              .get('pw')
+                              ?.get('password')
+                              ?.hasError('minlength')) &&
+                          registerForm.get('pw')?.dirty
+                            ? 'error'
+                            : ''
+                        }}"
+                        [nzErrorTip]="
+                          registerForm
+                            .get('pw')
+                            ?.get('password')
+                            ?.hasError('required')
+                            ? 'Bạn chưa nhập mật khẩu !'
+                            : registerForm
+                                .get('pw')
+                                ?.get('password')
+                                ?.hasError('maxlength')
+                            ? 'Vượt quá kí tự cho phép !'
+                            : registerForm
+                                .get('pw')
+                                ?.get('password')
+                                ?.hasError('minlength')
+                            ? 'Mật khẩu quá ngắn'
+                            : ''
+                        "
+                      >
+                        <nz-input-group nzPrefixIcon="lock">
+                          <input
+                            formControlName="password"
+                            type="password"
+                            nz-input
+                            placeholder="Mật khẩu"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item formGroupName="pw">
+                      <nz-form-control
+                        nzValidateStatus="{{
+                          (!registerForm.get('pw')?.valid &&
+                            registerForm.get('pw')?.dirty) ||
+                          (registerForm
+                            .get('pw')
+                            ?.get('confirmPassword')
+                            ?.hasError('required') &&
+                            registerForm.get('pw')?.dirty)
+                            ? 'error'
+                            : ''
+                        }}"
+                        [nzErrorTip]="
+                          registerForm
+                            .get('pw')
+                            ?.get('confirmPassword')
+                            ?.hasError('required')
+                            ? 'Nhập lại mật khẩu !'
+                            : registerForm.hasError('passwordnotmatch', 'pw')
+                            ? 'Mật khẩu không khớp !'
+                            : ''
+                        "
+                      >
+                        <nz-input-group nzPrefixIcon="redo">
+                          <input
+                            type="password"
+                            formControlName="confirmPassword"
+                            nz-input
+                            placeholder="Nhập lại mật khẩu"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item>
+                      <nz-form-control
+                        nzErrorTip="{{
+                          registerForm
+                            .get('phoneNumber')
+                            ?.hasError('minlength') ||
+                          registerForm.get('phoneNumber')?.hasError('maxlength')
+                            ? 'Số điện thoại không hợp lệ'
+                            : registerForm
+                                .get('phoneNumber')
+                                ?.hasError('required')
+                            ? 'Bạn chưa nhập số điện thoại'
+                            : ''
+                        }}"
+                      >
+                        <nz-input-group nzPrefixIcon="phone">
+                          <input
+                            formControlName="phoneNumber"
+                            type="text"
+                            nz-input
+                            placeholder="Số điện thoại"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="14" nzXs="22">
+                    <nz-form-item>
+                      <nz-form-control
+                        nzErrorTip="{{
+                          registerForm.get('email')?.hasError('required')
+                            ? 'Vui lòng nhập email'
+                            : registerForm
+                                .get('email')
+                                ?.hasError('minlength') ||
+                              registerForm.get('email')?.hasError('email')
+                            ? 'Email không hợp lệ'
+                            : ''
+                        }}"
+                      >
+                        <nz-input-group nzPrefixIcon="mail">
+                          <input
+                            formControlName="email"
+                            type="text"
+                            nz-input
+                            placeholder="Email"
+                          />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div nz-col nzLg="5">
+                    <button
+                      nzBlock="true"
+                      [nzLoading]="registerLoading"
+                      nz-button
+                      class="login-form-button login-form-margin mb-1"
+                      [nzType]="'primary'"
+                    >
+                      Đăng ký
+                    </button>
+                  </div>
+                </div>
+                <div nz-row nzJustify="center">
+                  <div class="text-right mr-1" nz-col nzXl="7" nzXs="11">
+                    Bạn đã có tài khoản ?
+                  </div>
+                  <div nz-col nzXl="7" nzXs="11">
+                    <a
+                      nz-typography
+                      [routerLink]="['.']"
+                      [queryParams]="{ tab: 'login' }"
+                    >
+                      Đăng nhập ngay!
+                    </a>
+                  </div>
+                </div>
+              </form>
+              <!-- END-----------------REGISTER---------------------FORM -->
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

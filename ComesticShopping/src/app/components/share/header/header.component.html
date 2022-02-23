@@ -1,0 +1,241 @@
+<nz-affix>
+    <div nz-row nzJustify="center" class="base-background py-4">
+      <div
+        nz-col
+        nzXXl="4"
+        nzXl="4"
+        nzLg="4"
+        nzMd="24"
+        nzXs="24"
+        nzSm="24"
+        class="d-flex align-items-center justify-content-center flex-row"
+      >
+        <h1  routerLink="/"class="text-danger text-center pointer">HameShop</h1>
+      </div>
+      <div nz-col nzXXl="12" nzXl="12" nzLg="12" nzMd="24" nzXs="24" nzSm="24">
+        <ul
+          class="
+            navbar-nav
+            flex-row
+            justify-content-center
+            align-items-center
+            h-100
+          "
+        >
+          <li class="nav-item mx-3" *ngFor="let item of navItems">
+            <a class="nav-link text-dark" routerLink="[item.path]">
+              {{ item.name }}</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div
+        nz-col
+        nzXXl="6"
+        nzXl="6"
+        nzLg="6"
+        nzMd="6"
+        nzXs="24"
+        nzSm="24"
+        class="d-flex flex-row align-items-center justify-content-center"
+      >
+        <div
+          [routerLink]="['/auth']"
+          routerLinkActive="active"
+          [nzPopoverContent]="
+            isLoggedIn && !isMobile ? userPopoverLoggedInTmp : ''
+          "
+          (click)="openDrawerLoggedIn()"
+          nz-popover
+          nzPopoverPlacement="bottom"
+          nzPopoverTrigger="hover"
+          class="
+            user
+            mx-2
+            py-3
+            px-4
+            pointer
+            icon-item
+            d-flex
+            align-items-center
+          "
+        >
+          <i nz-icon nzType="user" nzTheme="outline"></i>
+          <span class="none-select mx-2">Tài khoản</span>
+        </div>
+
+        <nz-badge [nzCount]="totalCart" [nzOffset]="[-30, 10]">
+          <div
+            class="
+              cart
+              mx-2
+              py-3
+              px-4
+              pointer
+              icon-item
+              d-flex
+              align-items-center
+            "
+            (click)="openDrawerListCart()"
+            [nzPopoverContent]="!isMobile ? cartListItemPopoverTmp : ''"
+            nz-popover
+            nzPopoverPlacement="bottom"
+            nzPopoverTrigger="hover"
+          >
+            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+            <span class="none-select mx-2">Giỏ hàng</span>
+          </div>
+        </nz-badge>
+      </div>
+    </div>
+</nz-affix>
+
+<nz-drawer
+  *ngIf="isLoggedIn"
+  [nzKeyboard]="true"
+  [nzClosable]="false"
+  [nzVisible]="drawerLoggedIn"
+  nzPlacement="bottom"
+  nzTitle="Tài khoản"
+  [nzHeight]="400"
+  (nzOnClose)="closeDrawerLoggedIn()"
+>
+  <ng-container *nzDrawerContent [ngTemplateOutlet]="userLoggedInTmp">
+  </ng-container>
+</nz-drawer>
+<!-- start drawer for list cart item !!! JUST FOR MOBILE -->
+<nz-drawer
+  [nzKeyboard]="true"
+  [nzClosable]="false"
+  [nzVisible]="drawerListCart"
+  nzPlacement="bottom"
+  nzTitle="Giỏ hàng của bạn"
+  [nzHeight]="400"
+  (nzOnClose)="closeDrawerListCart()"
+>
+  <ng-container *nzDrawerContent [ngTemplateOutlet]="cartListItemTmp">
+  </ng-container>
+</nz-drawer>
+
+<!-- end drawer for list cart item !!! JUST FOR MOBILE -->
+
+<ng-template #cartListItemPopoverTmp>
+  <div class="cart-list-item-popover">
+    <ng-container [ngTemplateOutlet]="cartListItemTmp"> </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #cartListItemTmp>
+  <cdk-virtual-scroll-viewport
+    *ngIf="listCart.length > 0"
+    itemSize="60"
+    class="w-100 h-75 custom-scroll-bar p-1"
+  >
+    <nz-list>
+      <nz-list-item *cdkVirtualFor="let item of listCart">
+        <nz-list-item-meta
+          *ngIf="item"
+          nzAvatar="{{ item.product.product_img_urls[0] }}"
+          [nzDescription]="cartItemLinkTmp"
+        >
+          <ng-template #cartItemLinkTmp>
+            <a
+              [routerLink]="[
+                '/default',
+                'product',
+                'product-detail',
+                item.product._id
+              ]"
+              >{{ item.product.product_name }}</a
+            >
+          </ng-template>
+
+          <nz-list-item-meta-title>
+            <span nz-typography
+              ><strong>Đơn giá: </strong>
+              <span nz-typography nzType="danger">
+                {{ item.product.product_price | currency: "VND":"symbol" }}
+              </span></span
+            >
+          </nz-list-item-meta-title>
+          <nz-list-item-meta-title>
+            <span nz-typography
+              ><strong>Số lượng: </strong>
+              <span nz-typography nzType="danger">
+                {{ item.amount }}
+              </span></span
+            >
+          </nz-list-item-meta-title>
+        </nz-list-item-meta>
+      </nz-list-item>
+    </nz-list>
+  </cdk-virtual-scroll-viewport>
+  <nz-divider
+    nzOrientation="center"
+    nzType="horizontal"
+    class="m-0"
+  ></nz-divider>
+  <button
+    *ngIf="listCart.length > 0"
+    nz-button
+    nzBlock
+    class="mt-3"
+    nzType="dashed"
+    [routerLink]="['/default', 'cart-detail']"
+  >
+    Thanh toán ngay
+  </button>
+  <div
+    *ngIf="listCart.length == 0"
+    class="
+      w-100
+      h-100
+      d-flex
+      flex-column
+      align-items-center
+      justify-content-center
+    "
+  >
+    <img src="assets/images/empty.png" alt="" class="img-fluid" />
+    <button
+      nz-button
+      nzBlock
+      class="mt-3"
+      nzType="dashed"
+      [routerLink]="['/default', 'product']"
+    >
+      Tiếp tục mua sắm
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #userPopoverLoggedInTmp>
+  <div class="user-popover">
+    <ng-container *ngTemplateOutlet="userLoggedInTmp"> </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #userLoggedInTmp>
+  <div nz-menu class="w-100 border-0">
+    <li nz-menu-item class="user-pop-over-item d-flex align-items-center">
+      <i nz-icon nzType="user" nzTheme="outline"></i>
+      <span>Tài khoản của tôi</span>
+    </li>
+    <li nz-menu-item class="user-pop-over-item d-flex align-items-center">
+      <i nz-icon nzType="lock" nzTheme="outline"></i>
+      <span>Đổi mật khẩu</span>
+    </li>
+
+    <li nz-menu-item class="user-pop-over-item d-flex align-items-center">
+      <i nz-icon nzType="shopping" nzTheme="outline"></i>
+      <span>Giỏ hàng</span>
+    </li>
+    <li nz-menu-item class="user-pop-over-item d-flex align-items-center">
+      <i nz-icon nzType="bell" nzTheme="outline"></i>
+      <span>Thông báo</span>
+    </li>
+  </div>
+  <button nz-button (click)="logOut()" nzBlock nzType="primary">
+    Đăng xuất
+  </button>
+</ng-template>

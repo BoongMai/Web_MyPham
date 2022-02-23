@@ -1,0 +1,211 @@
+<div
+  *ngIf="listCart.length > 0; else emptyCartTmp"
+  nz-row
+  nzJustify="center"
+  class="my-3"
+>
+  <div nz-col nzXXl="14" nzXl="14" nzLg="20" nzMd="22" nzXs="22" nzSm="22">
+    <div nz-row class="pl-1 pt-4">
+      <div nz-col nzSpan="24">
+        <h3 nz-typography>Giỏ hàng: ({{ totalAmount }} Sản phẩm)</h3>
+      </div>
+    </div>
+    <div *ngFor="let cart of listCart" nz-row nzJustify="center">
+      <div
+        nz-col
+        class="d-flex align-items-center"
+        nzXXl="4"
+        [nzXl]="{ span: 2, order: 1, offset: 0 }"
+        [nzLg]="{ span: 4, order: 1 }"
+        [nzMd]="{ span: 4, order: 1 }"
+        [nzSm]="{ span: 4, order: 1 }"
+        [nzXs]="{ span: 4, order: 1 }"
+      >
+        <img
+          nz-image
+          nzSrc="{{ cart.product.product_img_urls[0] }}"
+          class="img-fluid img-thumbnail"
+          alt=""
+        />
+      </div>
+      <div
+        class="d-flex align-items-center"
+        nz-col
+        nzXXl="7"
+        [nzXl]="{ span: 6, order: 2, offset: 0 }"
+        [nzLg]="{ span: 14, order: 2 }"
+        [nzMd]="{ span: 14, order: 2 }"
+        [nzSm]="{ span: 14, order: 2 }"
+        [nzXs]="{ span: 14, order: 2 }"
+      >
+        <h6
+          class="ml-2"
+          [routerLink]="[
+            '/default',
+            'product',
+            'product-detail',
+            cart.product._id
+          ]"
+          nz-typography
+        >
+          <a nz-typography>{{ cart.product.product_name }}</a>
+        </h6>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-start"
+        nz-col
+        nzXXl="4"
+        [nzXl]="{ span: 4, order: 3, offset: 0 }"
+        [nzLg]="{ span: 14, offset: 4, order: 4 }"
+        [nzMd]="{ span: 14, offset: 4, order: 4 }"
+        [nzSm]="{ span: 10, order: 4 }"
+        [nzXs]="{ span: 10, order: 4 }"
+      >
+        <input
+          #amount
+          nz-input
+          type="number"
+          [value]="cart.amount"
+          style="width: 64px; height: 32px"
+          class="text-center border-right-0"
+          max="100"
+          min="0"
+        />
+        <button
+          (click)="updateCartAmount(amount.value, cart.product._id)"
+          nz-tooltip="Cập nhật số lượng"
+          class="border-left-0"
+          nz-button
+          nzType="primary"
+          style="width: 32px; height: 32px"
+        >
+          <i nz-icon nzType="save"></i>
+        </button>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-end"
+        nz-col
+        nzXXl="3"
+        [nzXl]="{ span: 3, order: 4, offset: 0 }"
+        [nzLg]="{ span: 5, order: 3 }"
+        [nzMd]="{ span: 6, order: 3 }"
+        [nzSm]="{ span: 6, order: 3 }"
+        [nzXs]="{ span: 6, order: 3 }"
+      >
+        <div
+          class="
+            d-flex
+            flex-column
+            align-items-end
+            justify-content-center
+            h-100
+            w-100
+          "
+        >
+          <h6 nz-typography nzType="secondary">
+            <del>
+              {{ cart.product.product_old_price | currency: "VND":"symbol" }}
+            </del>
+          </h6>
+          <h5 class="my-0 mt-1" nz-typography nzType="success">
+            {{ cart.product.product_price | currency: "VND":"symbol" }}
+          </h5>
+        </div>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-end"
+        nz-col
+        nzXXl="3"
+        [nzXl]="{ span: 6, order: 5, offset: 0 }"
+        [nzLg]="{ span: 7, order: 5 }"
+        [nzMd]="{ span: 6, order: 5 }"
+        [nzSm]="{ span: 8, order: 5 }"
+        [nzXs]="{ span: 8, order: 5 }"
+      >
+        <h5 nz-typography nzType="danger">
+          Thành tiền:
+          {{
+            calcTotalPricePerProduct(cart.amount, cart.product.product_price)
+              | currency: "VND":"symbol"
+          }}
+        </h5>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-end"
+        nz-col
+        nzXXl="3"
+        [nzXl]="{ span: 3, order: 6, offset: 0 }"
+        [nzLg]="{ span: 24, order: 6 }"
+        [nzMd]="{ span: 24, order: 6 }"
+        [nzSm]="{ span: 6, order: 6 }"
+        [nzXs]="{ span: 6, order: 6 }"
+      >
+        <button
+          (click)="deleteCart(cart.product._id)"
+          nz-tooltip="Xoá sản phẩm"
+          nz-button
+          nzType="dashed"
+        >
+          <i nz-icon nzType="delete" nzTheme="twotone"></i>
+        </button>
+      </div>
+      <div nz-col nzSpan="24">
+        <nz-divider nzOrientation="center" nzType="horizontal"></nz-divider>
+      </div>
+    </div>
+  </div>
+  <div nz-col nzXXl="4" nzXl="4" nzLg="20" nzMd="22" nzSm="22" nzXs="22" class="p-3 mt-5">
+    <div nz-row nzJustify="space-between" class="p-2 border rounded">
+      <div nz-col nzSpan="12">
+        <h5 nz-typography nzType="secondary">Tạm tính:</h5>
+      </div>
+      <div nz-col nzSpan="12">
+        <h5 nz-typography nzType="success" class="text-right">
+          {{ totalPrice | currency: "VND":"symbol" }}
+        </h5>
+      </div>
+    </div>
+    <nz-divider nzType="horizontal"> </nz-divider>
+    <div nz-row nzJustify="space-between" class="p-2 border rounded">
+      <div nz-col nzSpan="12">
+        <h5 nz-typography>Thành tiền:</h5>
+      </div>
+      <div nz-col nzSpan="12">
+        <h5 nz-typography nzType="danger" class="text-right">
+          {{ totalPrice | currency: "VND":"symbol" }}
+        </h5>
+      </div>
+    </div>
+    <div nz-row class="mt-4">
+      <div nz-col nzSpan="24">
+        <button nz-button nzType="primary" nzBlock="true">Thanh toán</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #emptyCartTmp>
+  <div nz-row nzJustify="center" class="my-3 vh-50" nzAlign="middle">
+    <div
+      nz-col
+      nz-col
+      nzXXl="18"
+      nzXl="18"
+      nzLg="20"
+      nzMd="22"
+      nzXs="22"
+      nzSm="22"
+      class="h-100 d-flex flex-column align-items-center justify-content-center"
+    >
+      <img nz-image nzSrc="/assets/images/empty.png" src="" alt="" />
+      <button
+        nz-button
+        nzBlock
+        class="mt-3"
+        nzType="primary"
+        [routerLink]="['/default', 'product']"
+      >
+        Tiếp tục mua sắm
+      </button>
+    </div>
+  </div>
+</ng-template>

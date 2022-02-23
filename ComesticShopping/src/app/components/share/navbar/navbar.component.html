@@ -1,0 +1,96 @@
+<div nz-row nzJustify="center" nzAlign="middle" class="bg-light">
+  <nav
+    nz-col
+    nzXXl="16"
+    nzXl="18"
+    nzLg="20"
+    nzMd="22"
+    nzXs="24"
+    class="navbar navbar-expand-lg"
+  >
+    <button
+      class="navbar-toggler text-center"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="openDrawerNavbar()"
+    >
+      <div class="d-flex align-items-center">
+        <em nz-icon nzType="menu" nzTheme="outline"></em>
+        <span class="ml-2">Danh mục sản phẩm</span>
+      </div>
+    </button>
+
+    <div *ngIf="!isMobile" class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div nz-row class="bg-success w-100" nzJustify="center">
+        <div nz-col nzSpan="24">
+          <ng-container *ngTemplateOutlet="navbarTmp">
+
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<nz-drawer
+   nzMask="true"
+  *ngIf="isMobile"
+  [nzKeyboard]="true"
+  [nzClosable]="false"
+  [nzVisible]="drawerNavbar"
+  nzPlacement="left"
+  nzTitle="Danh mục sản phẩm"
+  [nzWidth]="280"
+  (nzOnClose)="closeDrawerNavbar()"
+>
+  <ng-container *nzDrawerContent [ngTemplateOutlet]="navbarTmp">
+  </ng-container>
+</nz-drawer>
+
+<!-- start navbar menu -->
+<ng-template #navbarTmp>
+  <ul
+    class="d-flex justify-content-center nav-menu"
+    nz-menu
+    nzMode="horizontal"
+    [nzSelectable]="true"
+  >
+    <ng-container
+      *ngTemplateOutlet="menuTpl; context: { $implicit: categories }"
+    ></ng-container>
+    <ng-template #menuTpl let-categories>
+      <ng-container *ngFor="let menu of categories">
+        <li *ngIf="!menu.cat_child" nz-menu-item>
+          <em nz-icon [nzType]="menu.cat_icon" *ngIf="menu.cat_icon"></em>
+          <a
+            [routerLink]="['/', 'default', 'product', 'category', menu.cat_id]"
+            routerLinkActive="active"
+            >{{ menu.cat_text }}</a
+          >
+        </li>
+        <li
+          *ngIf="menu.cat_child"
+          [routerLink]="['/', 'default', 'product', 'category', menu.cat_id]"
+          routerLinkActive="active"
+          nz-submenu
+          [nzTitle]="menu.cat_text"
+        >
+          <ul>
+            <ng-container
+              *ngTemplateOutlet="
+                menuTpl;
+                context: { $implicit: menu.cat_child }
+              "
+            ></ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-template>
+  </ul>
+</ng-template>
+
+<!-- end navbar menu -->

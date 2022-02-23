@@ -1,0 +1,217 @@
+<div nz-row nzJustify="center" class="bg-light">
+  <div
+    nz-col
+    nzXXl="16"
+    nzXl="18"
+    nzLg="20"
+    nzMd="22"
+    nzXs="24"
+    class="product-item-card bg-white"
+  >
+    <div nz-col nzSpan="24">
+      <img
+        nz-image
+        nzSrc="/assets/images/banners/__MBL_HN_1320x500.jpg"
+        class="img-fluid"
+        alt="Banner"
+      />
+    </div>
+    <ng-container
+      fragment="product-container"
+      *ngTemplateOutlet="
+        productTemplate;
+        context: { listProducts: productData, title: category_text }
+      "
+    >
+    </ng-container>
+    <div nz-row nzJustify="center">
+      <div nz-col nzXXl="11" nzXl="11" nzLg="11" nzMd="11" nzXs="22" nzSm="22">
+        <img
+          nz-image
+          nzSrc="/assets/images/banners/PG0601640X2401609984998.jpg"
+          class="img-fluid"
+          alt="Banner"
+        />
+      </div>
+
+      <div nz-col nzXXl="11" nzXl="11" nzLg="11" nzMd="11" nzXs="22" nzSm="22">
+        <img
+          nz-image
+          nzSrc="/assets/images/banners/HTD1705640x2401621227779.jpg"
+          class="img-fluid"
+          alt="Banner"
+        />
+      </div>
+    </div>
+
+    <ng-container
+      *ngTemplateOutlet="
+        productItemsCarousel;
+        context: {
+          listProducts: productData,
+          title: 'Top các sản phẩm bán chạy trong tuần'
+        }
+      "
+    >
+    </ng-container>
+  </div>
+
+  <!-- start-product-item-carousel-template -->
+  <ng-template
+    #productItemsCarousel
+    let-listProducts="listProducts"
+    let-title="title"
+  >
+    <nz-page-header class="site-page-header" nzTitle="{{ title }}">
+      <nz-page-header-content>
+        <nz-divider nzType="horizontal"></nz-divider>
+        <owl-carousel-o [options]="customOptions">
+          <ng-template *ngFor="let item of listProducts" carouselSlide>
+            <div class="item-carousel p-4">
+              <ng-container
+                *ngTemplateOutlet="productCardItem; context: { product: item }"
+              >
+              </ng-container>
+            </div>
+          </ng-template>
+        </owl-carousel-o>
+      </nz-page-header-content>
+    </nz-page-header>
+  </ng-template>
+  <!-- end-product-item-carousel-template -->
+
+  <!-- start-product-template -->
+  <ng-template
+    #productTemplate
+    let-listProducts="listProducts"
+    let-title="title"
+  >
+    <nz-page-header class="site-page-header" nzTitle="{{ title }}">
+      <nz-page-header-content>
+        <div
+          nz-row
+          nzJustify="center"
+          [nzGutter]="[{ xs: 8, sm: 16, md: 20, lg: 32 }, 24]"
+        >
+          <div
+            *ngFor="let item of listProducts"
+            nz-col
+            nzXXl="6"
+            nzXl="6"
+            nzLg="8"
+            nzMd="8"
+            nzXs="12"
+            nzSm="14"
+            nzXs="20"
+            class="gutter-row"
+          >
+            <ng-container
+              *ngTemplateOutlet="productCardItem; context: { product: item }"
+            ></ng-container>
+          </div>
+        </div>
+      </nz-page-header-content>
+    </nz-page-header>
+    <div class="py-3 mt-3" nzAlign="middle" nz-row nzJustify="center">
+      <div class="d-flex justify-content-center" nz-col nzSpan="16">
+        <nz-pagination
+          nzPageIndex="{{ page }}"
+          (nzPageIndexChange)="handlePageIndexChange($event)"
+          nzTotal="{{ total_result }}"
+          nzPageSize="{{ entries_per_page }}"
+        ></nz-pagination>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- end-product-template -->
+
+  <!-- start-product-card-item-template -->
+
+  <ng-template #productCardItem let-product="product">
+    <nz-ribbon nzText="{{ product.product_discount }}">
+      <nz-card nzHoverable [nzActions]="[actionAddToCart, actionBuyNow]">
+        <div
+          [routerLink]="['/default', 'product', 'product-detail', product._id]"
+          class="
+            card-content
+            w-100
+            d-flex
+            flex-column
+            align-items-center
+            justify-content-center
+          "
+          style="height: 280px"
+        >
+          <div class="img-container w-100 d-flex justify-content-center">
+            <img
+              nz-image
+              class="img-fluid"
+              width="200px"
+              height="200px"
+              nzSrc="{{ product.product_img_urls[0] }}"
+              nzDisablePreview
+              alt=""
+            />
+          </div>
+
+          <div
+            class="
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-center
+              w-100
+              mt-auto
+            "
+          >
+            <span nz-typography class="d-flex justify-content-center w-100 mt-1"
+              ><strong>{{ product.product_name }}</strong></span
+            >
+            <div
+              class="w-100 d-flex align-items-center justify-content-between"
+            >
+              <h5 class="mr-4" nz-typography>
+                <a nz-typography nzEditable="false">
+                  {{ product.product_price | currency: "VND":"symbol" }}
+                </a>
+              </h5>
+              <h6 nz-typography nzType="secondary">
+                <del>{{
+                  product.product_old_price | currency: "VND":"symbol"
+                }}</del>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </nz-ribbon>
+
+    <ng-template #actionAddToCart>
+      <em
+        nz-icon
+        nzTooltipTitle="{{!isMobile ? 'Thêm vào giỏ hàng' : ''}}"
+        nzTooltipPlacement="top"
+        nz-tooltip
+        nzTooltipColor="cyan"
+        nzType="shopping-cart"
+        nzTheme="outline"
+        (click)="addToCart(product)"
+      ></em>
+    </ng-template>
+    <ng-template #actionBuyNow>
+      <em
+        nzTooltipPlacement="top"
+        nz-tooltip
+        nzTooltipColor="cyan"
+        nz-icon
+        nzType="dollar"
+        nzTheme="outline"
+        nzTooltipTitle="{{!isMobile ? 'Mua ngay' : ''}}"
+        (click)="buyClick(product)"
+      ></em>
+    </ng-template>
+  </ng-template>
+
+  <!-- end-product-card-item-template -->
+</div>

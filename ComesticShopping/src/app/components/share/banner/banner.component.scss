@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+.test{
+  display: inline-block;
+  overflow: hidden ;
+  background-color: red;
+  width: 100vw;
+}
+.banner-content{
+  width: 40%;
+  position: absolute;
+  top: 40%;
+  left: 15%;
+}
+
+.banner-content-title{
+  font-style: italic;
+  font-weight: bolder;
+  font-size: 65px;
+  font-family: 'Bangers', cursive;
+}
+
+[nz-carousel-content] {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}

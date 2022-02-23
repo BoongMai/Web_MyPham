@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500&display=swap');
+
+
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+*{
+  // font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Saira Condensed', sans-serif;
+}
+a{
+  text-decoration: none !important;
+}
+// globl-color
+$color-1: #f8dae6;
+$color-2: #FFD4E6;
+$color-3: #4B3761;
+$color-4: #F36CA8;
+
+.font-3{
+  font-family: 'Saira Condensed', sans-serif;
+}
+.none-select{
+  user-select: none;
+}.primary-text-color{
+  color: #F36CA8 !important;
+}
+
+.head-text-color{
+    color: $color-3;
+    :hover{
+        font-weight: bold;
+    }
+}
+
+.base-background{
+  background-color: $color-1 !important;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+
+.custom-scroll-bar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.custom-scroll-bar::-webkit-scrollbar
+{
+	width: 3px;
+	background-color: #F5F5F5;
+}
+
+.custom-scroll-bar::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 2px solid #555555;
+}
+
